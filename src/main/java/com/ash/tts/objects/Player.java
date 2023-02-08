@@ -1,4 +1,4 @@
-package cem.ash.tts.objects;
+package com.ash.tts.objects;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;

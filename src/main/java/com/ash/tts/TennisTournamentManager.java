@@ -1,8 +1,8 @@
-package cem.ash.tts;
+package com.ash.tts;
 
-import cem.ash.tts.objects.MatchSummary;
-import cem.ash.tts.objects.Player;
-import cem.ash.tts.observer.MatchSimulation;
+import com.ash.tts.objects.MatchSummary;
+import com.ash.tts.objects.Player;
+import com.ash.tts.communication.MatchSimulation;
 
 import java.util.ArrayList;
 

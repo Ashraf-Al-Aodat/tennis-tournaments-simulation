@@ -1,6 +1,6 @@
-package cem.ash.tts;
+package com.ash.tts;
 
-import cem.ash.tts.objects.Player;
+import com.ash.tts.objects.Player;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;

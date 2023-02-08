@@ -1,6 +1,7 @@
-package cem.ash.tts.observer;
+package com.ash.tts.communication;
 
-import cem.ash.tts.objects.Player;
+import com.ash.tts.objects.Player;
+
 
 public interface MatchSimulation {
 
