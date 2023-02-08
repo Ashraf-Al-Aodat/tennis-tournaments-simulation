@@ -9,31 +9,29 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 import java.util.stream.Collectors;
 
 
 public class TtsApplication {
     public static void main(String[] args) {
         final TennisTournamentManager tournamentManager = new TennisTournamentManager(new TennisMatchSimulation());
-        Stack<Player> players = new Stack<>();
+        Deque<Player> players;
         try {
-            players.addAll(
-                    getPlayerData().stream()
+            players = getPlayerData().stream()
                     .limit(16)
-                            .collect(Collectors.toList()));
+                    .collect(Collectors.toCollection(LinkedList::new));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        int numberOfPlayers = players.size();
-        int numberOfMatches = numberOfPlayers / 2;
-        System.out.println("Number of players: " + numberOfPlayers + " Number of matches: " + numberOfMatches);
         do {
             final Player player1 = players.pop();
             final Player player2 = players.pop();
-            tournamentManager.executeMatch(player1, player2);
-        } while (!players.isEmpty());
+            Player winner = tournamentManager.executeMatch(player1, player2);
+            players.addLast(winner);
+        } while (!(players.size() == 1));
         tournamentManager.printTournamentWinner();
     }
 

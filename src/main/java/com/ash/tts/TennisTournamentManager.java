@@ -15,12 +15,18 @@ public class TennisTournamentManager implements MatchSimulation {
         this.summaryArray = new ArrayList<>();
     }
 
-    public void executeMatch(final Player player1, final Player player2) {
-        matchSimulation.executeMatch(player1, player2);
-        summaryArray.add(matchSimulation.determineWinner());
+    public Player executeMatch(final Player player1, final Player player2) {
+        Player winner = matchSimulation.executeMatch(player1, player2);
+        summaryArray.add(matchSimulation.getMatchSummary());
+        return winner;
     }
 
     public void printTournamentWinner() {
-        summaryArray.forEach(System.out::println);
+        System.out.println("----------------------------");
+        for (int i = 0; i < summaryArray.size();i++){
+            System.out.printf("Match # %d%n", i);
+            System.out.println(summaryArray.get(i).toString());
+            System.out.println("----------------------------");
+        }
     }
 }

@@ -7,15 +7,19 @@ import java.util.stream.Collectors;
 
 
 public class MatchSummary {
-    private String winner;
+    private Player winner;
     private final List<int[]> setScores;
 
     public MatchSummary() {
         this.setScores = new ArrayList<>();
     }
 
-    public void setWinner(String winner) {
+    public void setWinner(Player winner) {
         this.winner = winner;
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 
     public List<int[]> getSetScores() {
@@ -25,10 +29,10 @@ public class MatchSummary {
     public void setSetScores(int[]setScores) {
         this.setScores.add(setScores);
     }
-
+    
     @Override
     public String toString() {
         List<String> scores = setScores.stream().map(Arrays::toString).collect(Collectors.toList());
-        return String.format("The winner is %s with the result of the match %s", winner, scores);
+        return String.format("The winner is %s with the result of the match %s", winner.getName(), scores);
     }
 }

@@ -20,4 +20,9 @@ public class Player {
     public int getPerformanceValue() {
         return performanceValue;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Name: %s -> Performance: %s", name, performanceValue);
+    }
 }

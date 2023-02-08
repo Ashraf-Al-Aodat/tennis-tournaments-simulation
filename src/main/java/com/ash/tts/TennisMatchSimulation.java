@@ -4,7 +4,6 @@ import com.ash.tts.objects.MatchSummary;
 import com.ash.tts.objects.Player;
 import com.ash.tts.communication.MatchSimulation;
 
-import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -12,13 +11,17 @@ import java.util.stream.Collectors;
 public class TennisMatchSimulation implements MatchSimulation {
     private Player player1;
     private Player player2;
+    private MatchSummary matchSummary;
     public TennisMatchSimulation() {
+        this.matchSummary = new MatchSummary();
     }
 
     @Override
-    public void executeMatch(Player player1, Player player2) {
+    public Player executeMatch(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
+        determineWinner();
+        return matchSummary.getWinner();
     }
 
     public int[] playSet() {
@@ -57,21 +60,28 @@ public class TennisMatchSimulation implements MatchSimulation {
         }
     }
 
-    public MatchSummary determineWinner() {
-        final MatchSummary matchSummary =  new MatchSummary();
+    public void determineWinner() {
+        matchSummary = new MatchSummary();
         do {
             matchSummary.setSetScores(playSet());
         } while (matchSummary.getSetScores().size() < 3);
-        String winner = matchSummary.getSetScores().stream().map(score -> {
-            String winnerName = player1.getName();
+        Player player = matchSummary.getSetScores().stream().map(score -> {
+            Player winner = player1;
             if (score[0] < score[1])
-                winnerName = player2.getName();
-            return winnerName;
-        }).collect(Collectors.groupingBy(e -> e, Collectors.summarizingInt(v -> 1)))
+                winner = player2;
+            return winner;
+        }).collect(Collectors.groupingBy(Player::getName, Collectors.summarizingInt(v -> 1)))
                 .entrySet().stream().limit(1)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.joining());
-        matchSummary.setWinner(winner);
+                .map(entry -> {
+                    if (entry.getKey().equals(player1.getName()))
+                        return player1;
+                    return player2;
+                })
+                .collect(Collectors.toList()).get(0);
+        matchSummary.setWinner(player);
+    }
+
+    public MatchSummary getMatchSummary() {
         return matchSummary;
     }
 }
