@@ -24,7 +24,7 @@ public class TennisTournamentManager implements MatchSimulation {
     public void printTournamentWinner() {
         System.out.println("----------------------------");
         for (int i = 0; i < summaryArray.size();i++){
-            System.out.printf("Match # %d%n", i);
+            System.out.printf("Match # %d%n", i+1);
             System.out.println(summaryArray.get(i).toString());
             System.out.println("----------------------------");
         }

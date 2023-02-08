@@ -29,7 +29,7 @@ public class MatchSummary {
     public void setSetScores(int[]setScores) {
         this.setScores.add(setScores);
     }
-    
+
     @Override
     public String toString() {
         List<String> scores = setScores.stream().map(Arrays::toString).collect(Collectors.toList());
