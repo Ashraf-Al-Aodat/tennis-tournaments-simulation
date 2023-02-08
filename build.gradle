@@ -1,0 +1,68 @@
+plugins {
+    id 'java' apply true
+    id "com.diffplug.eclipse.apt" version "3.32.1"
+    id 'jacoco' apply true
+    id "idea" apply true
+
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    gradlePluginPortal()
+
+}
+
+ext['log4j2.version'] = "${log4jVersion}"
+
+dependencies {
+    implementation 'com.fasterxml:jackson-xml-databind:0.6.2'
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly 'com.google.code.findbugs:annotations:3.0.1'
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    implementation "org.apache.logging.log4j:log4j-layout-template-json:${log4jVersion}"
+
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+
+    // Testing
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testImplementation(platform("org.junit:junit-bom:${junitBomVersion}"))
+
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+    testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+    testImplementation("com.squareup.okhttp3:mockwebserver:${mockwebserverVersion}")
+    testImplementation("com.squareup.okhttp3:okhttp:${mockwebserverVersion}")
+
+}
+
+compileJava.inputs.files(processResources)
+
+compileJava.dependsOn(processResources)
+
+test {
+    finalizedBy jacocoTestReport
+    useJUnitPlatform()
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        html.enabled(true)
+        xml.enabled(true)
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
