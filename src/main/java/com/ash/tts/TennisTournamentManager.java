@@ -22,11 +22,22 @@ public class TennisTournamentManager implements MatchSimulation {
     }
 
     public void printTournamentWinner() {
+        int factor = 2;
+        int tournamentCounter = (summaryArray.size()+1)/factor;
         System.out.println("----------------------------");
-        for (int i = 0; i < summaryArray.size();i++){
+        for (int i = 0; i < summaryArray.size()-1;i++){
+            if(i == tournamentCounter){
+                factor+=2;
+                tournamentCounter+= (summaryArray.size()+1)/factor;
+                if (tournamentCounter+1 != summaryArray.size()){
+                    System.out.println("Start New Round");
+                }
+            }
             System.out.printf("Match # %d%n", i+1);
             System.out.println(summaryArray.get(i).toString());
             System.out.println("----------------------------");
         }
+        System.out.println("Last Match");
+        System.out.println(summaryArray.get(summaryArray.size()-1).toString());
     }
 }
